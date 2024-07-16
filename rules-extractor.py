@@ -12,9 +12,8 @@ div = soup.find('div', class_='mw-category-group')
 links = div.find_all('a')
 link_urls = [link['href'] for link in links]
 
-for link in link_urls:
+for index, link in enumerate(link_urls):
     url = base_url +  link
-    print(url)
     response = requests.get(url)
     html_content = response.text
 
@@ -24,9 +23,6 @@ for link in link_urls:
     content = ''
     for p_tag in p_tags:
         content += p_tag.get_text()
-        # content += '\n'
-    print(content)
     
-    with open("rules.txt", "a", encoding="utf-8") as file:
+    with open(f'rules/rule-{index + 1}.txt', "a", encoding="utf-8") as file:
         file.write(content)
-        file.write('\n\n----------------------------------------------------\n\n')
